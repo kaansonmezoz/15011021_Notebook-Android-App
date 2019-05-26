@@ -4,17 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "note",
-        foreignKeys = @ForeignKey(
-                entity = NoteInfo.class,
-                parentColumns = "id",
-                childColumns = "note_id",
-                onDelete = ForeignKey.CASCADE
-        )
-)
+@Entity(tableName = "note")
 public class Note {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
