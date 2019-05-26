@@ -1,16 +1,18 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model;
 
-public class NoteItem {
+public class NoteItem { //TODO: Bunlar hep genisletilecek
     private int id;
     private String title;
     private String lastUpdatedDate;
     private String truncatedWords;
+    private boolean selected;
 
     public NoteItem(int id, String title, String lastUpdatedDate, String truncatedWords) {
         this.id = id;
         this.title = title;
         this.lastUpdatedDate = lastUpdatedDate;
         this.truncatedWords = truncatedWords;
+        selected = false;
     }
 
     public int getId() {
@@ -43,5 +45,13 @@ public class NoteItem {
 
     public void setTruncatedWords(String truncatedWords) {
         this.truncatedWords = truncatedWords;
+    }
+
+    public void setSelected(boolean selected){
+        this.selected = selected;
+    }
+
+    public boolean isSelected(){
+        return selected;
     }
 }
