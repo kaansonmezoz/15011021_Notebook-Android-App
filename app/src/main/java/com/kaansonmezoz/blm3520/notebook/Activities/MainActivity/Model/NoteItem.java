@@ -6,6 +6,8 @@ public class NoteItem { //TODO: Bunlar hep genisletilecek
     private String lastUpdatedDate;
     private String truncatedWords;
 
+    public NoteItem(){}
+
     public NoteItem(int id, String title, String lastUpdatedDate, String truncatedWords) {
         this.id = id;
         this.title = title;

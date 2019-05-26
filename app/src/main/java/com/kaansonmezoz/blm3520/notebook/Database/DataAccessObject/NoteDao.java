@@ -3,12 +3,23 @@ package com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
 
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
+
+import java.util.List;
+
 
 @Dao
 public interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertNotes(Note note, NoteInfo noteInfo);
+    public void insertNote(Note note);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertNoteWithNoteInfo(Note note, NoteInfo noteInfo);
+
+    @Query("SELECT * FROM note")
+    public LiveData<List<Note>> getAllNotes();
 }

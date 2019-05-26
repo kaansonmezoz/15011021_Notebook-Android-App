@@ -1,10 +1,10 @@
 package com.kaansonmezoz.blm3520.notebook.Database.Entity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 @Entity(tableName = "note")
 public class Note {
@@ -23,7 +23,12 @@ public class Note {
     @ColumnInfo(name = "priority")
     public String priority = "MEDIUM";
 
-    @ColumnInfo(name = "note_id")
-    @NonNull
-    public int noteId;
+    @ColumnInfo(name = "note_info_id")
+    @Nullable
+    public int noteInfoId;
+
+    public Note(String title, String priority){
+        this.title = title;
+        this.priority = priority;
+    }
 }

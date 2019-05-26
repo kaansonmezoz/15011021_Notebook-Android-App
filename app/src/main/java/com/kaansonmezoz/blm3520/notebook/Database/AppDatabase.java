@@ -1,16 +1,38 @@
 package com.kaansonmezoz.blm3520.notebook.Database;
 
+import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import androidx.room.Room;
+import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteAttachmentDao;
+import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteDao;
+import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteInfoDao;
+import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteToNoteAttachmentDao;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteAttachment;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
 
-public class AppDatabase {
-    private static AppDatabaseAbstract database;
 
-    public static synchronized AppDatabaseAbstract getDatabase(Context context){
+
+@Database(entities = {Note.class, NoteAttachment.class, NoteInfo.class}, version = 1)
+public abstract class AppDatabase extends RoomDatabase {
+    private static volatile  AppDatabase database;
+
+    public abstract NoteDao noteDao();
+    public abstract NoteInfoDao noteInfoDao();
+    public abstract NoteAttachmentDao noteAttachmentDao();
+    public abstract NoteToNoteAttachmentDao noteToNoteAttachmentDao();
+
+    public static AppDatabase getDatabase(Context context){
         if(database == null){
-            database = Room.databaseBuilder(context, AppDatabaseAbstract.class, "notebook-database").build();
+            synchronized (AppDatabase.class){
+                database = Room.databaseBuilder(context, AppDatabase.class, "notebook-database")
+                        .build();
+            }
         }
+
         return database;
     }
+
 }
