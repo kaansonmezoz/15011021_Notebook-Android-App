@@ -5,14 +5,12 @@ public class NoteItem { //TODO: Bunlar hep genisletilecek
     private String title;
     private String lastUpdatedDate;
     private String truncatedWords;
-    private boolean selected;
 
     public NoteItem(int id, String title, String lastUpdatedDate, String truncatedWords) {
         this.id = id;
         this.title = title;
         this.lastUpdatedDate = lastUpdatedDate;
         this.truncatedWords = truncatedWords;
-        selected = false;
     }
 
     public int getId() {
@@ -45,13 +43,5 @@ public class NoteItem { //TODO: Bunlar hep genisletilecek
 
     public void setTruncatedWords(String truncatedWords) {
         this.truncatedWords = truncatedWords;
-    }
-
-    public void setSelected(boolean selected){
-        this.selected = selected;
-    }
-
-    public boolean isSelected(){
-        return selected;
     }
 }

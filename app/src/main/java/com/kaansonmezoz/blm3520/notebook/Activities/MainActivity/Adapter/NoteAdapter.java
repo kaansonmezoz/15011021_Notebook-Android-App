@@ -1,6 +1,5 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -13,22 +12,26 @@ import android.widget.TextView;
 import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model.NoteItem;
 import com.kaansonmezoz.blm3520.notebook.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private  List<NoteItem> noteItems;
-    private ArrayList<NoteItem> selectedItems;
 
     public NoteAdapter(List<NoteItem> noteItems){
         this.noteItems = noteItems;
-        selectedItems = new ArrayList<NoteItem>();
     }
 
     public NoteAdapter.NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_note_item, parent, false);
 
-        return new NoteViewHolder(itemView);
+        itemView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                //TODO: Note details should be opened in a different activity
+                Log.d("MainActivity", "Note details clicked");
+            }
+        });
+
+        return new NoteViewHolder(itemView, parent);
     }
 
     public void onBindViewHolder(NoteViewHolder holder, int position){
@@ -54,44 +57,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         public TextView lastUpdateDate;
         public TextView firstCharacters;
 
-        public NoteViewHolder(View view){
+        public NoteViewHolder(View view,final ViewGroup parent){
             super(view);
             //TODO: ContextMenu yerine belki de popup olusturmak daha mantikli olabilir ?
             //todo: kod acayip bir sekilde cirkinlesmeye basladi bunu bir guzel refactor etmek lazim
 
-            view.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    if(selectedItems.size() > 0){
-                        //TODO:Long click ile aynı oldu bunu refactor etmek lazim
-                        int position = getAdapterPosition();
-                        NoteItem note = noteItems.get(position);
-                        clickForMultipleSelection(view, note);
-                    }
-                    else{
-                        //TODO: Note details should be opened in a different activity
-                        Log.d("MainActivity", "Not details clicked");
-                        //TODO: Related information about the clicked note must be shown to the user
-                    }
-                    //TODO: Iki setOnClickListener olmali bizim bunlardan biri sey olur selectedItems sifir iken normal detaya gitmek icin
-                    //TODO: Bir digeri ise selectedItems > 0 iken calisir bunlarda da ekleme yapılır. Tabii selectedItems > 0 buyuk iken
-                    //TODO: bizlerin uzun basma olayını da deactivate etmemiz gerekiyor
-
-                }
-            });
+            View mainActivityView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
 
             view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener(){     //TODO: Bunun alternatiflerine de bakmak da yarar var
                 public void onCreateContextMenu(ContextMenu menu, final View view, ContextMenu.ContextMenuInfo menuInfo){
-                    menu.add("Select").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            Log.d("MainActivity", "Select clicked");
-
-                            int position = getAdapterPosition();
-                            NoteItem note = noteItems.get(position);
-                            clickForMultipleSelection(view, note);
-                            return false;
-                        }
-                    });
                     menu.add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -121,25 +95,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             title = view.findViewById(R.id.note_title);
             lastUpdateDate = view.findViewById(R.id.note_last_update_date);
             firstCharacters = view.findViewById(R.id.note_content);
-        }
-
-        public void clickForMultipleSelection(View view, NoteItem note){
-            if(note.isSelected()){
-                selectedItems.remove(note);
-                note.setSelected(false);
-                //TODO: White degil de notun backgorund colour'u ne ise o olacak orasi
-                view.setBackgroundColor(Color.WHITE);
-                //TODO: secilmis note kalmadıysa layout eski haline donmeli
-                //TODO: yani cop kutusu yerine + isareti gelmeli mesela
-                Log.d("MainActivity", "Note selected: " + note.isSelected());
-            }
-            else{
-                view.setBackgroundColor(Color.GRAY);
-                note.setSelected(true);
-                selectedItems.add(note);
-                Log.d("MainActivity", "Note selected: " + note.isSelected());
-            }
-
         }
     }
 }
