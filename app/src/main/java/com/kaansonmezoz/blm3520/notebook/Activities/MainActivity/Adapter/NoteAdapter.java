@@ -29,10 +29,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         itemView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
             //TODO: Related information about the clicked note must be shown to the user
+            //TODO: Note details should be opened in a different activity
+            Log.d("MainActivity", "Not details clicked");
             }
         });
-
-
 
         /*
         itemView.setOnLongClickListener(new View.OnLongClickListener(){
@@ -69,13 +69,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         public NoteViewHolder(View view){
             super(view);
-
-                                                    //TODO: ContextMenu yerine belki de popup olusturmak daha mantikli olabilir ?
-
+            //TODO: ContextMenu yerine belki de popup olusturmak daha mantikli olabilir ?
             //todo: kod acayip bir sekilde cirkinlesmeye basladi bunu bir guzel refactor etmek lazim
             view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener(){     //TODO: Bunun alternatiflerine de bakmak da yarar var
                 public void onCreateContextMenu(ContextMenu menu, final View view, ContextMenu.ContextMenuInfo menuInfo){
-
                     menu.add("Select").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -83,22 +80,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                             return false;
                         }
                     });
-
                     menu.add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             int position = getAdapterPosition();
-
                             noteItems.remove(position);
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, noteItems.size());
-
-
                             Log.d("MainActivity", "Delete clicked");
                             return false;
                         }
                     });
-
                     menu.add("Set Reminder").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -106,7 +98,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                             return false;
                         }
                     });
-
                     menu.add("Share").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
