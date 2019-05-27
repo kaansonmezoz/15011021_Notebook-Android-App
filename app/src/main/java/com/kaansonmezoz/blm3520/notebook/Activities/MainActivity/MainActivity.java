@@ -10,7 +10,6 @@ import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model.NoteItem;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
 import com.kaansonmezoz.blm3520.notebook.R;
-import com.kaansonmezoz.blm3520.notebook.Utility.Mapper;
 
 import java.util.ArrayList;
 
