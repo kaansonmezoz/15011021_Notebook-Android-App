@@ -9,18 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model.NoteItem;
-import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
+import com.kaansonmezoz.blm3520.notebook.Database.RelationEntity.NoteToNoteInfo;
 import com.kaansonmezoz.blm3520.notebook.R;
+import com.kaansonmezoz.blm3520.notebook.ViewModel.NoteWithInfoViewModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-    private  List<Note> noteItems;
+    private  List<NoteWithInfoViewModel> noteItems;
 
     public NoteAdapter(){}
 
-    public NoteAdapter(List<Note> noteItems){
+    public NoteAdapter(List<NoteWithInfoViewModel> noteItems){
         this.noteItems = noteItems;
     }
 
@@ -38,11 +40,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public void onBindViewHolder(NoteViewHolder holder, int position){
-        Note noteItem = noteItems.get(position);
+        NoteWithInfoViewModel noteItem = noteItems.get(position);
 
-        holder.firstCharacters.setText(noteItem.priority);
-        holder.title.setText(noteItem.title);
-        holder.lastUpdateDate.setText(noteItem.priority);
+        String pattern = "MM/dd/yyyy HH:mm:ss";
+        DateFormat dateFormat = new SimpleDateFormat(pattern);
+
+        holder.firstCharacters.setText(noteItem.getNote().priority);
+        holder.title.setText(noteItem.getNote().title);
+        holder.lastUpdateDate.setText(dateFormat.format(noteItem.getNoteInfo().lastUpdatedDate));
     }
 
     public int getItemCount(){
@@ -55,7 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         notifyItemRangeChanged(position, noteItems.size());
     }
 
-    public void setNoteItems(List<Note> noteItems){
+    public void setNoteItems(List<NoteWithInfoViewModel> noteItems){
         this.noteItems = noteItems;
         notifyDataSetChanged();
     }

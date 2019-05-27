@@ -6,6 +6,7 @@ import com.kaansonmezoz.blm3520.notebook.Database.AppDatabase;
 import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteInfoDao;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.NoteInfo.AsyncTask.NoteInfoAsyncInsert;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.NoteInfo.AsyncTask.NoteInfoAsyncSelect;
 
 import java.util.concurrent.ExecutionException;
 
@@ -21,7 +22,7 @@ public class NoteInfoRepository {
         return new NoteInfoAsyncInsert(noteInfoDao).execute(noteInfo).get();
     }
 
-    public NoteInfo getNoteInfoById(long id){
-        return noteInfoDao.getNoteInfoById(id);
+    public NoteInfo getNoteInfoById(long id) throws ExecutionException, InterruptedException {
+        return new NoteInfoAsyncSelect(noteInfoDao).execute(id).get();
     }
 }

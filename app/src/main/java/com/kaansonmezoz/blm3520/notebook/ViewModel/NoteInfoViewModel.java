@@ -16,7 +16,7 @@ public class NoteInfoViewModel extends AndroidViewModel {
         noteInfoRepository = new NoteInfoRepository(application);
     }
 
-    public NoteInfo getNoteInfoById(long id){
+    public NoteInfo getNoteInfoById(long id) throws ExecutionException, InterruptedException {
         return noteInfoRepository.getNoteInfoById(id);
     }
 
