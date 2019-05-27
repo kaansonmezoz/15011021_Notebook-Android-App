@@ -23,6 +23,6 @@ public interface NoteDao {
     @Query("SELECT * FROM note")
     public LiveData<List<Note>> getAllNotes();
 
-    @Query("DELETE FROM note")
-    public void deleteAll();
+    @Query("DELETE FROM note WHERE id = :noteId")
+    public void deleteNoteById(long noteId);
 }

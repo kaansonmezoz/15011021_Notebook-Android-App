@@ -1,5 +1,6 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Adapter;
 
+import android.app.Application;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -10,17 +11,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kaansonmezoz.blm3520.notebook.Database.RelationEntity.NoteToNoteInfo;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.NoteInfo.NoteInfoRepository;
 import com.kaansonmezoz.blm3520.notebook.R;
 import com.kaansonmezoz.blm3520.notebook.ViewModel.NoteWithInfoViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private  List<NoteWithInfoViewModel> noteItems;
+    private Application application;
 
-    public NoteAdapter(){}
+    public NoteAdapter(Application application){
+        this.application = application;
+    }
 
     public NoteAdapter(List<NoteWithInfoViewModel> noteItems){
         this.noteItems = noteItems;
@@ -55,9 +62,27 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public void removeAt(int position) {
+        NoteWithInfoViewModel noteItem  = noteItems.get(position);
+
+        NoteRepository noteRepository = new NoteRepository(application);
+        NoteInfoRepository noteInfoRepository = new NoteInfoRepository(application);
+
+        try {
+            noteInfoRepository.deleteNoteInfoById(noteItem.getNoteInfo().id);
+            noteRepository.deleteNoteById(noteItem.getNote().id);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         noteItems.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, noteItems.size());
+
+
+
     }
 
     public void setNoteItems(List<NoteWithInfoViewModel> noteItems){

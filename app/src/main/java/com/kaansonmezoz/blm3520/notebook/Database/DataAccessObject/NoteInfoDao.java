@@ -14,4 +14,7 @@ public interface NoteInfoDao {
 
     @Query("SELECT * FROM note_info WHERE  id = :noteId")
     public NoteInfo getNoteInfoById(long noteId);
+
+    @Query("DELETE FROM note_info WHERE id = :noteInfoId")
+    public void deleteNoteInfoById(long noteInfoId);
 }

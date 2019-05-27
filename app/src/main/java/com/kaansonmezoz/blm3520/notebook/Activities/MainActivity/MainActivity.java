@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        final NoteAdapter noteAdapter = new NoteAdapter();
+        final NoteAdapter noteAdapter = new NoteAdapter(getApplication());
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
 

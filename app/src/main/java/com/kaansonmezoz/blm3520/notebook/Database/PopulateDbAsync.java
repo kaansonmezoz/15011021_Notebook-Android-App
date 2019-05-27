@@ -19,6 +19,7 @@ public class PopulateDbAsync extends AsyncTask <Void, Void, Void> {
     }
 
     protected Void doInBackground(final Void ... params){
+        /*
         noteDao.deleteAll();
 
         long noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
@@ -44,7 +45,7 @@ public class PopulateDbAsync extends AsyncTask <Void, Void, Void> {
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
         noteDao.insertNote(new Note("deneme8", "deneme", noteInfoId));
-
+        */
         return null;
     }
 }
