@@ -8,6 +8,7 @@ import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class NoteViewModel extends AndroidViewModel {
     private NoteRepository noteRepository;
@@ -23,7 +24,7 @@ public class NoteViewModel extends AndroidViewModel {
         return notes;
     }
 
-    public void insertNote(Note note){
-        noteRepository.insertNote(note);
+    public Long insertNote(Note note) throws ExecutionException, InterruptedException{
+        return noteRepository.insertNote(note);
     }
 }

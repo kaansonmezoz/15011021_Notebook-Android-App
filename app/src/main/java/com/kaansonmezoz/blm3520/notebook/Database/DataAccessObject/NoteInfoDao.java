@@ -4,10 +4,14 @@ import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
 
 
 @Dao
 public interface NoteInfoDao {
     @Insert
-    public void insertNoteInfo(NoteInfo noteInfo);
+    public long insertNoteInfo(NoteInfo noteInfo);
+
+    @Query("SELECT * FROM note_info WHERE  id = :noteId")
+    public NoteInfo getNoteInfoById(long noteId);
 }

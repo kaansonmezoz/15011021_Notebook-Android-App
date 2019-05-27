@@ -11,6 +11,7 @@ import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteAttachmen
 import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteDao;
 import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteInfoDao;
 import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteToNoteAttachmentDao;
+import com.kaansonmezoz.blm3520.notebook.Database.DataAccessObject.NoteToNoteInfoDao;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteAttachment;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
@@ -33,6 +34,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract NoteInfoDao noteInfoDao();
     public abstract NoteAttachmentDao noteAttachmentDao();
     public abstract NoteToNoteAttachmentDao noteToNoteAttachmentDao();
+    public abstract NoteToNoteInfoDao noteToNoteInfoDao();
 
     public static AppDatabase getDatabase(Context context){
         if(database == null){

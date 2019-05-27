@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 public class Note {
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "title")
     @NonNull
@@ -24,11 +24,11 @@ public class Note {
     public String priority = "MEDIUM";
 
     @ColumnInfo(name = "note_info_id")
-    @Nullable
-    public int noteInfoId;
+    public long noteInfoId;
 
-    public Note(String title, String priority){
+    public Note(String title, String priority, long noteInfoId){
         this.title = title;
         this.priority = priority;
+        this.noteInfoId = noteInfoId;
     }
 }
