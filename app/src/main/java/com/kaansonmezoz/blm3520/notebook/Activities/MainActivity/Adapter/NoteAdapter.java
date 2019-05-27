@@ -1,5 +1,6 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Adapter;
 
+import android.app.Activity;
 import android.app.Application;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kaansonmezoz.blm3520.notebook.Database.RelationEntity.NoteToNoteInfo;
+import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.AlertDialog.ReminderAlertDialog;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.NoteInfo.NoteInfoRepository;
 import com.kaansonmezoz.blm3520.notebook.R;
@@ -24,9 +25,11 @@ import java.util.concurrent.ExecutionException;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
     private  List<NoteWithInfoViewModel> noteItems;
     private Application application;
+    private Activity activity;
 
-    public NoteAdapter(Application application){
+    public NoteAdapter(Application application, Activity activity){
         this.application = application;
+        this.activity = activity;
     }
 
     public NoteAdapter(List<NoteWithInfoViewModel> noteItems){
@@ -100,8 +103,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             //TODO: ContextMenu yerine belki de popup olusturmak daha mantikli olabilir ?
             //todo: kod acayip bir sekilde cirkinlesmeye basladi bunu bir guzel refactor etmek lazim
 
-            View mainActivityView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
-
             view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener(){     //TODO: Bunun alternatiflerine de bakmak da yarar var
                 public void onCreateContextMenu(ContextMenu menu, final View view, ContextMenu.ContextMenuInfo menuInfo){
                     menu.add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -117,6 +118,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             Log.d("MainActivity", "Set Reminder clicked");
+                            String alarmTitle = noteItems.get(getAdapterPosition()).getNote().title;
+                            ReminderAlertDialog alertDialog = new ReminderAlertDialog(activity, alarmTitle);
+                            alertDialog.showAlertDialog();
                             return false;
                         }
                     });
