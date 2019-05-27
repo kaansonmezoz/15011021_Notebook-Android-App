@@ -1,5 +1,9 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.MainActivity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +14,13 @@ import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model.NoteItem;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
 import com.kaansonmezoz.blm3520.notebook.R;
+import com.kaansonmezoz.blm3520.notebook.ViewModel.NoteViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private NoteViewModel noteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,35 +31,18 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<NoteItem> noteItems = new ArrayList<NoteItem>();
+        final NoteAdapter noteAdapter = new NoteAdapter();
 
-        /*
-        noteItems.add(new NoteItem(1, "deneme", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme1", "deneme1",   "deneme1"));
-        noteItems.add(new NoteItem(1, "deneme2", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme3", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme4", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme5", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme6", "deneme",   "deneme"));
-        noteItems.add(new NoteItem(1, "deneme7", "deneme",   "deneme"));
-        */
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+
+        noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(@Nullable List<Note> notes) {
+                noteAdapter.setNoteItems(notes);
+            }
+        });
 
 
-
-        NoteRepository noteRepository = new NoteRepository(getApplication());
-
-        noteRepository.insertNote(new Note("deneme", "deneme"));
-        noteRepository.insertNote(new Note("deneme1", "deneme1"));
-        noteRepository.insertNote(new Note("deneme2", "deneme"));
-        noteRepository.insertNote(new Note("deneme3", "deneme"));
-        noteRepository.insertNote(new Note("deneme4", "deneme"));
-        noteRepository.insertNote(new Note("deneme5", "deneme"));
-        noteRepository.insertNote(new Note("deneme6", "deneme"));
-        noteRepository.insertNote(new Note("deneme7", "deneme"));
-
-        //noteItems set edilmeli burada
-
-        NoteAdapter noteAdapter = new NoteAdapter(noteItems);
         recyclerView.setAdapter(noteAdapter);
     }
 

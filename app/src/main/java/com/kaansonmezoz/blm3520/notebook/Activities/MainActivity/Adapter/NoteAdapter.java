@@ -10,14 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.Model.NoteItem;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.R;
 
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
-    private  List<NoteItem> noteItems;
+    private  List<Note> noteItems;
 
-    public NoteAdapter(List<NoteItem> noteItems){
+    public NoteAdapter(){}
+
+    public NoteAdapter(List<Note> noteItems){
         this.noteItems = noteItems;
     }
 
@@ -35,21 +38,26 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public void onBindViewHolder(NoteViewHolder holder, int position){
-        NoteItem noteItem = noteItems.get(position);
+        Note noteItem = noteItems.get(position);
 
-        holder.firstCharacters.setText(noteItem.getTruncatedWords());
-        holder.title.setText(noteItem.getTitle());
-        holder.lastUpdateDate.setText(noteItem.getLastUpdatedDate());
+        holder.firstCharacters.setText(noteItem.priority);
+        holder.title.setText(noteItem.title);
+        holder.lastUpdateDate.setText(noteItem.priority);
     }
 
     public int getItemCount(){
-        return noteItems.size();
+        return noteItems != null ? noteItems.size(): 0;
     }
 
     public void removeAt(int position) {
         noteItems.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, noteItems.size());
+    }
+
+    public void setNoteItems(List<Note> noteItems){
+        this.noteItems = noteItems;
+        notifyDataSetChanged();
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder{
