@@ -5,6 +5,15 @@
     tools:context=".Activities.AddNoteActivity.AddNoteActivity">
 
     <item
+        android:id="@+id/add_attachment"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:orderInCategory="1"
+        android:title="Add Attacment"
+        app:showAsAction="ifRoom"
+        />
+
+
+    <item
         android:id="@+id/note_color"
         android:icon="@drawable/ic_fiber_manual_record_black_24dp"
         android:orderInCategory="1"

@@ -19,33 +19,32 @@ public class PopulateDbAsync extends AsyncTask <Void, Void, Void> {
     }
 
     protected Void doInBackground(final Void ... params){
-        /*
         noteDao.deleteAll();
 
         long noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme", "high", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme1", "deneme1", noteInfoId));
+        noteDao.insertNote(new Note("deneme1", "low", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme2", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme2", "low", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme3", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme3", "high", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme4", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme4", "medium", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme5", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme5", "medium", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme6", "deneme", noteInfoId));
+        noteDao.insertNote(new Note("deneme6", "low", noteInfoId));
 
         noteInfoId = noteInfoDao.insertNoteInfo(new NoteInfo(new Date(), new Date(), null));
-        noteDao.insertNote(new Note("deneme8", "deneme", noteInfoId));
-        */
+        noteDao.insertNote(new Note("deneme8", "high", noteInfoId));
+
         return null;
     }
 }

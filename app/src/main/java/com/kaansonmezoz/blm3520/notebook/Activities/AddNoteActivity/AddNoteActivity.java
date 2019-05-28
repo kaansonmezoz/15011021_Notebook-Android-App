@@ -1,24 +1,26 @@
 package com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.AlertBox.FileAttachmentsAlertDialog;
-import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
-import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteAttachment;
-import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
+import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.ViewModel.FileAttachment;
+import com.kaansonmezoz.blm3520.notebook.Manager.RequestCodeManager;
 import com.kaansonmezoz.blm3520.notebook.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -26,7 +28,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private EditText noteText;
     private Toolbar mTopToolbar;
     private EditText noteTitle;
-    private ArrayList<String> attachmentPaths;
+    private ArrayList<FileAttachment> attachmentPaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class AddNoteActivity extends AppCompatActivity {
         //TODO: burası aslinda aynı aktivite olacak eger ki bundle icerisinden ya da intent ile iste bize bir obje gelmemisse
         //TODO: bu demek olacak ki yeni bir not yaratılıyor degil ise yeni bir not degil bu
 
-        attachmentPaths = new ArrayList<String>();
+        attachmentPaths = new ArrayList<FileAttachment>();
 
         saveButton = findViewById(R.id.saveButton);
         noteText = findViewById(R.id.noteText);
@@ -98,12 +100,56 @@ public class AddNoteActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.attachment) {
-
             FileAttachmentsAlertDialog dialog = new FileAttachmentsAlertDialog(attachmentPaths);
             dialog.showDialog(this);
             return true;
         }
+        else if(id == R.id.add_attachment){
+            RequestCodeManager manager = new RequestCodeManager();
+            int requestCode = manager.getRequestCodeFor("FILE_EXPLORER");
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            startActivityForResult(intent, requestCode);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        switch(requestCode){
+            case 1:
+                if(resultCode == RESULT_OK){
+                    Uri uri = data.getData();
+                    //File file = new File(uri.getPath());
+                    //String filePath = file.getAbsolutePath();
+                    String filePath = uri.getPath();
+                    String fileName = getFileName(uri);
+
+                    attachmentPaths.add(new FileAttachment(fileName, filePath));
+                }
+        }
+    }
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 }

@@ -25,4 +25,7 @@ public interface NoteDao {
 
     @Query("DELETE FROM note WHERE id = :noteId")
     public void deleteNoteById(long noteId);
+
+    @Query("DELETE FROM note ")
+    public void deleteAll();
 }
