@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.AlertBox.FileAttachmentsAlertDialog;
 import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.ViewModel.FileAttachment;
+import com.kaansonmezoz.blm3520.notebook.Activities.MainActivity.MainActivity;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteAttachment;
 import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
@@ -93,7 +94,8 @@ public class AddNoteActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
+                Intent intent = new Intent(AddNoteActivity.this, MainActivity.class);
+                startActivity(intent);
 
             }
         });
