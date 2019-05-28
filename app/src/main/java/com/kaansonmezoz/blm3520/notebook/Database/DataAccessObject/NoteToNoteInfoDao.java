@@ -13,6 +13,6 @@ public interface NoteToNoteInfoDao {
     @Query("SELECT * FROM NOTE WHERE id = :id")
     public NoteToNoteInfo getNoteWithInfoByNoteId(long id);
 
-    @Query("SELECT * FROM NOTE N, NOTE_INFO NI WHERE NI.id = N.note_info_id")
+    @Query("SELECT * FROM NOTE N, NOTE_INFO NI WHERE NI.id = N.note_info_id ORDER BY NI.last_updated_date DESC")
     public LiveData<List<NoteToNoteInfo>> getAllNotesWithNoteInfo();
 }

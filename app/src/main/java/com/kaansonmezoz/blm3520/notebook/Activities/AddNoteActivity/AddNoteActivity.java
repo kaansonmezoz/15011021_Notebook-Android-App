@@ -12,16 +12,24 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.AlertBox.FileAttachmentsAlertDialog;
 import com.kaansonmezoz.blm3520.notebook.Activities.AddNoteActivity.ViewModel.FileAttachment;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.Note;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteAttachment;
+import com.kaansonmezoz.blm3520.notebook.Database.Entity.NoteInfo;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.Note.NoteRepository;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.NoteInfo.NoteInfoRepository;
+import com.kaansonmezoz.blm3520.notebook.Database.Repository.NotePath.NotePathRepository;
 import com.kaansonmezoz.blm3520.notebook.Manager.RequestCodeManager;
 import com.kaansonmezoz.blm3520.notebook.R;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class AddNoteActivity extends AppCompatActivity {
     private Button saveButton;
@@ -47,27 +55,49 @@ public class AddNoteActivity extends AppCompatActivity {
 
         mTopToolbar = (Toolbar) findViewById(R.id.add_note_toolbar);
         setSupportActionBar(mTopToolbar);
-        /*
+
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                NoteInfoRepository repositoryNoteInfo = new NoteInfoRepository(getApplication());
+                NoteRepository repositoryNote = new NoteRepository(getApplication());
+                NotePathRepository notePathRepository = new NotePathRepository(getApplication());
 
-                //TODO: surada bir alertbox yaparız orada elemana priority sectiririz
                 String title = noteTitle.getText().toString();
 
-                Note note;
-                NoteInfo noteInfo = new NoteInfo();
+                NoteAttachment attachment;
 
-                NoteAttachment attachment = null;
+                long noteId = 0;
 
-                note = new Note(title, );
+                try {
+                    NoteInfo noteInfo = new NoteInfo(new Date(), new Date(), null);
+                    long noteInfoId = repositoryNoteInfo.insertNote(noteInfo);
 
-                if(attachmentPaths.size() != 0){ //TODO: ancak bu zaman dosya eklenmis demek db'ye o sekilde eklenecek
+                    Note note = new Note(title, "medium");
+                    note.noteInfoId = noteInfoId;
+                    repositoryNote.insertNote(note);
 
+                    if(attachmentPaths.size() != 0){ //TODO: ancak bu zaman dosya eklenmis demek db'ye o sekilde eklenecek
+                        for(FileAttachment fileAttachment: attachmentPaths){
+                            attachment = new NoteAttachment();
+                            attachment.filePath = fileAttachment.getFilePath();
+                            attachment.note_id = noteId;
+                            attachment.fileName = fileAttachment.getFileName();
+                            notePathRepository.insertNote(attachment);
+                        }
+                    }
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+
+
             }
         });
-        */
+
     }
 
     @Override

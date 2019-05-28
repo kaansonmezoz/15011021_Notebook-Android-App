@@ -12,13 +12,15 @@ public class NoteAttachment {
     public int id;
 
     @ColumnInfo(name = "note_id")
-    public int note_id;
+    public long note_id;
 
     @ColumnInfo(name = "type")
-    @NonNull
     public String type; // AUDIO, DOCUMENT, PHOTO ...
 
     @ColumnInfo(name = "file_path")
     @NonNull
     public String filePath;
+
+    @ColumnInfo(name = "file_name")
+    public String fileName;
 }
